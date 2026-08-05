@@ -8,6 +8,14 @@ This repository is intentionally focused on **real engineering work**—recoveri
 
 ---
 
+# Architecture
+
+[Open the interactive Atlas platform architecture](diagrams/atlas-platform-architecture.html) to view the physical lab network, four-node Raspberry Pi foundation, Kubernetes services, and delivery roadmap.
+
+The diagram distinguishes the current rebuild state from the target platform and intentionally excludes sensitive infrastructure details.
+
+---
+
 # Current Platform
 
 ## Infrastructure
