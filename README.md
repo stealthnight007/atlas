@@ -10,7 +10,9 @@ This repository is intentionally focused on **real engineering work**—recoveri
 
 # Architecture
 
-![Atlas platform architecture](diagrams/atlas-platform-architecture.png)
+[![Atlas platform architecture](diagrams/atlas-platform-architecture.png)](https://raw.githubusercontent.com/stealthnight007/atlas/main/diagrams/atlas-platform-architecture.png)
+
+[Open the full-size architecture diagram](https://raw.githubusercontent.com/stealthnight007/atlas/main/diagrams/atlas-platform-architecture.png)
 
 The architecture distinguishes the current rebuild state from the target platform and intentionally excludes sensitive infrastructure details.
 
