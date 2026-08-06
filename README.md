@@ -30,7 +30,7 @@ The architecture distinguishes the current rebuild state from the target platfor
 
 - containerd
 
-- Calico networking
+- Calico networking (reinstallation pending)
 
 - etcd control plane
 
@@ -48,17 +48,17 @@ The architecture distinguishes the current rebuild state from the target platfor
 
 # Current Capabilities
 
-- ✅ Multi-node Kubernetes cluster
+- ✅ Reproducible Ubuntu 24.04 Kubernetes host baseline
 
-- ✅ Cluster recovery procedures
+- ✅ Kubernetes v1.35.7 control plane
 
-- ✅ etcd disaster recovery snapshot
+- ✅ Control-plane health validation
 
-- ✅ Cluster health validation tooling
+- ⏳ Cluster networking and worker rejoin
 
-- ✅ Kubernetes Metrics API
+- ⏳ Resource Metrics restoration on the rebuilt cluster
 
-- ✅ Node & Pod resource monitoring
+- ⏳ Persistent storage restoration
 
 ---
 
@@ -68,23 +68,23 @@ The architecture distinguishes the current rebuild state from the target platfor
 
 |---------|-----------|
 
-| ✅ | 001 — Lab Discovery |
+| ✅ | [001 — Lab Discovery](docs/milestones/001-lab-discovery.md) |
 
-| ✅ | 002 — Kubernetes Foundation |
+| ✅ | [002 — Kubernetes Foundation](docs/milestones/002-kubernetes-foundation.md) |
 
-| ✅ | 003 — Resource Metrics |
+| ✅ | [003 — Resource Metrics](docs/milestones/003-resource-metrics.md) |
 
-| ⏳ | 004 — Distributed Storage |
+| ✅ | [004 — Platform Modernization](docs/milestones/004-platform-modernization.md) |
 
-| ⏳ | 005 — Load Balancing |
+| ✅ | [005 — Control Plane Reconstitution](docs/milestones/005-control-plane-reconstitution.md) |
 
-| ⏳ | 006 — Ingress |
+| ⏳ | 006 — Cluster Networking and Worker Rejoin |
 
-| ⏳ | 007 — GitOps |
+| ⏳ | 007 — Distributed Storage |
 
-| ⏳ | 008 — Observability |
+| ⏳ | 008 — Load Balancing and Ingress |
 
-| ⏳ | 009 — Platform Applications |
+| ⏳ | 009 — GitOps and Platform Applications |
 
 ---
 
@@ -151,6 +151,14 @@ The current objective is evolving Atlas into a complete self-hosted platform cap
 - Kubernetes Foundation ✅
 
 - Resource Metrics ✅
+
+- Platform Modernization ✅
+
+- Control Plane Reconstitution ✅
+
+- Cluster Networking and Worker Rejoin
+
+- Resource Metrics Restoration
 
 - Distributed Storage
 
