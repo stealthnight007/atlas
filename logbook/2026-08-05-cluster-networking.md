@@ -123,8 +123,11 @@ ICMP packets with a second pod without packet loss. Pod-scoped tolerations were
 used for the test; the control-plane node taint was not removed or weakened.
 Both temporary pods were deleted after validation.
 
-Inter-node routing will be tested again after the three workers join the
-cluster.
+After the three workers joined, additional test pods were pinned to three
+different workers. Checker pods on two workers resolved cluster DNS and reached
+a target pod on the third worker without packet loss. Pod placement was
+verified, and all temporary workloads were deleted after the test. This
+completed the inter-node routing acceptance criterion.
 
 ## Reusable Automation
 
@@ -166,14 +169,11 @@ ShellCheck was not installed on the management workstation and was not run.
 
 ## Current State
 
-Atlas now has a healthy operator-managed Calico data plane on the control-plane
-node. Kubernetes networking, service discovery, pod addressing, and pod-to-pod
-traffic are operational.
+Atlas now has a healthy operator-managed Calico data plane across the complete
+four-node cluster. Kubernetes networking, service discovery, pod addressing,
+and cross-worker pod traffic are operational.
 
 ## Next Steps
 
-1. Join all three rebuilt worker nodes.
-2. Confirm Calico node agents and CNI files on every worker.
-3. Test DNS and pod traffic across nodes.
-4. Complete the cluster-networking issue after inter-node validation.
-5. Begin the Longhorn storage restoration phase.
+1. Preserve the completed four-node networking checks in project tracking.
+2. Begin the Longhorn storage restoration phase.
