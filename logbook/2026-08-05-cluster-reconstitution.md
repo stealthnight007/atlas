@@ -123,6 +123,36 @@ Validation confirmed:
 No bootstrap token, certificate, kubeconfig content, node address, or internal
 network range was captured in this log.
 
+## Reusable Initialization Automation
+
+The validated manual procedure is now captured in
+`scripts/init-control-plane.sh`. The script requires the pod network at
+runtime so Atlas-specific network details remain outside version control. It
+uses the installed kubeadm version by default and supports an explicit version
+only when it exactly matches the installed tooling.
+
+Before making changes, the script verifies:
+
+- The node has no existing Kubernetes control-plane or kubelet state.
+- Ubuntu, ARM64, kubeadm, and kubelet match the supported Atlas foundation.
+- Swap is disabled and containerd uses systemd cgroups.
+- Required kernel modules and network sysctls are active.
+- Host routing is unambiguous and does not overlap the requested pod network.
+- The host firewall is not enabled in a way that conflicts with bootstrap.
+
+The `--preflight-only` mode performs these checks without requesting elevated
+access, pulling images, or initializing Kubernetes. It passed on all three
+fresh worker nodes. A deliberately overlapping private range was rejected,
+and the initialized control-plane node was rejected because existing state was
+detected. These refusal tests confirm that the script fails before mutation in
+both unsafe conditions.
+
+For a fresh node, the execution path pre-pulls the required images, runs
+`kubeadm init`, installs the generated kubeconfig only into the invoking
+operator's home directory with owner-only permissions, and validates the API,
+node registration, and control-plane pods. Join commands remain transient and
+must never be written to source control or project tracking.
+
 ## Lessons Learned
 
 - Verify the management workstation's network path before diagnosing all
@@ -140,4 +170,5 @@ network range was captured in this log.
 
 1. Deploy and validate Calico through the Tigera Operator.
 2. Join and validate all three worker nodes.
-3. Convert the validated procedures into reusable Atlas scripts.
+3. Continue converting the networking, worker-join, storage, startup, and
+   shutdown procedures into reusable Atlas scripts.
