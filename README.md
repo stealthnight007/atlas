@@ -1,184 +1,327 @@
-# Project Atlas
+# PROJECT ATLAS
 
-> A human-led, AI-assisted personal infrastructure and mini-datacenter platform.
+<!--
+VISUAL PLACEMENT 1 — ATLAS HERO / BANNER
 
-Atlas is a long-term engineering project for building, operating, breaking,
-recovering, automating, and documenting real infrastructure. Kubernetes is its
-current orchestration substrate—not the project’s endpoint.
+A wide, unmistakably Atlas image belongs here: physical infrastructure,
+experimentation, and a sense that the project is still moving. Keep it
+stylized or abstract. Do not include readable screens, labels, addresses,
+identifiers, port maps, or enough physical detail to reconstruct the lab.
 
-The platform is intended to grow into a home for persistent storage,
-applications and microservices, network services, observability, websites and
-personal projects, interview/demo environments, edge services, hybrid-cloud
-integration, load balancing, and future AI/model workloads.
+Publish only after Team Atlas reviews the exact final asset and crop.
+-->
 
-## Current architecture
+<p align="center">
+  <strong>Don’t just read about what’s next. Build it.</strong>
+</p>
 
-Atlas now runs one heterogeneous Kubernetes cluster:
+What started with four Raspberry Pis in a closet has become my personal
+technology laboratory—a real mini-datacenter for getting hands-on with the
+technologies reshaping AI, cybersecurity, cloud infrastructure, and modern
+applications.
 
-- one AMD64 control plane on Atlas Prime;
-- four ARM64 Raspberry Pi workers;
-- containerd and Calico networking;
-- cluster DNS plus foundational DNS that remains independent of Kubernetes;
-- dedicated control-plane filesystems for etcd and containerd; and
-- a management workstation that operates approved gates and preserves evidence.
+I built Atlas because I learn best by building. It gives me a place to take the
+technologies I encounter across AI, cybersecurity, cloud, and industry and
+experience them firsthand: build the infrastructure, observe it, break it,
+understand why it failed, recover it, secure it, and then build something
+harder.
 
-The original Pi control plane was intentionally retired after every worker had
-migrated and the replacement cluster had proved independent health. External
-worker disks were preserved without inheriting the abandoned storage
-experiment. Fresh persistent-storage design will begin as a new architecture,
-driven by workload, failure-domain, backup, and recovery requirements.
+Today, Atlas runs a heterogeneous compute platform built around a dedicated
+AMD64 control plane and four ARM64 Raspberry Pi workers. But Kubernetes isn’t
+Project Atlas.
 
-See the [sanitized migration-era diagrams](docs/architecture/migration-era-diagrams.md).
+> **Kubernetes is the launchpad.**
 
-## The Atlas Prime migration era
+Atlas is where Team Atlas will explore persistent infrastructure,
+observability, cybersecurity, AI agents, MCP, local models, hybrid cloud, real
+applications—and technologies that are not on the list yet.
 
-Atlas began as a Pi-only Kubernetes lab. Recovering that platform taught the
-interactions among Linux, containerd, kubelet, etcd, Calico, metrics, and
-storage. Longhorn preparation then exposed a deeper limitation: replicated
-software cannot turn latency-sensitive microSD media into the foundation the
-next platform needed.
+This repository documents the journey: what worked, what failed, the decisions
+that changed the architecture, and what we learned by building it.
 
-Atlas Prime introduced stronger AMD64 compute and NVMe storage without
-discarding the working Pi cluster. The successor was built in bounded gates:
+## Built in a closet. Designed to go much further.
 
-1. Commission the host and prove reboot recovery.
-2. Establish foundational DNS and correct a router-proxy forwarding loop.
-3. Create an auditable automation path.
-4. Validate NVMe health and allocate dedicated etcd/containerd filesystems.
-5. Generalize bootstrap logic for AMD64 and ARM64.
-6. Install the container runtime and Kubernetes foundation.
-7. Initialize the control plane from one validated configuration.
-8. Install Calico and make Atlas Prime Ready.
-9. Use one worker as a reversible migration canary.
-10. Expand sequentially, then transition from learning mode to rollout mode.
-11. Retire the legacy control plane and reuse its host as the fourth worker.
-12. Shut the environment down cleanly, cold-start it, correct the persistence
-    defects exposed by reboot, and give the human operator independent access.
+<!--
+VISUAL PLACEMENT 2 — REVIEWED PHYSICAL ATLAS PHOTOGRAPH
 
-Failures remain part of the record. DHCP/DNS cutover rolled back when public
-resolution exposed a circular dependency. A worker canary rolled back when an
-end-to-end DNS dependency was missing from the accepted policy. Several stops
-proved that validators can be wrong even when infrastructure is healthy:
-limited test clients, resolver ambiguity, scheduler placement, command
-identity, evidence paths, Metrics Server movement, and Typha autoscaling all
-needed explicit treatment.
+Place the real closet/rack photograph here once the exact source image and
+final crop pass Team Atlas review. Check screens, labels, serial numbers,
+asset tags, papers, reflections, cable/port clues, surrounding objects,
+location clues, and embedded metadata. Do not publish the photograph before
+that review.
+-->
 
-The resulting principle is simple: validators and rollback automation are part
-of the production system. Test them with the same skepticism as the change.
+Atlas is physical infrastructure. Hardware gets chosen. Cables get pulled.
+Power fails. Storage behaves differently from the diagram. Reboots reveal what
+was never truly persistent.
 
-The migration era closed with a cold-start recovery test. The foundational
-services, Kubernetes control plane, and four-worker fleet came
-back without rebuilding the platform. The test did expose one valuable defect:
-the former control-plane Pi's live rename had not updated every durable
-cloud-init identity source. That worker returned under its historical name,
-and Kubernetes correctly rejected the identity mismatch. The persistent source
-was corrected, rebooted, and proved before the five-node recovery was accepted.
+That is part of the point. The lab is small enough to understand, real enough
+to fight back, and open-ended enough to keep asking harder questions.
 
-The same recovery also disproved an early network hypothesis. The independent
-wireless network and router configuration were healthy; a management-workstation
-DNS override was crossing network boundaries. Returning the workstation to
-DHCP-derived DNS restored the intended separation without changing the network.
+## Atlas today
 
-## Team Atlas
+| 5 nodes | 2 architectures | 1 control plane |
+|:---:|:---:|:---:|
+| **4 compute workers** | **13 completed milestones** | **1 retired legacy cluster** |
 
-Atlas is neither a solo implementation story nor an autonomous AI project.
+<!--
+VISUAL PLACEMENT 3 — SANITIZED CURRENT ARCHITECTURE
 
-- **Ruben** is the architecture/product owner and operator. He sets the vision,
-  chooses and controls the physical infrastructure, approves architecture and
-  execution gates, decides what must be preserved, and steers priorities and
-  tradeoffs.
-- **ChatGPT** is the architecture, platform-strategy, and review partner. It
-  helps translate goals into designs, reason through tradeoffs, define gates
-  and operating policy, explain behavior, and keep the platform aligned with
-  the long-term vision.
-- **Codex** is the infrastructure and automation engineering arm. It implements
-  scripts and configuration, executes approved operations, builds validators
-  and rollback paths, collects evidence, and maintains durable checkpoints.
+Replace the Mermaid diagram below with a polished branded rendering when the
+visual system is ready. Preserve role-level architecture only. Do not add
+addresses, exact network topology, device identifiers, access paths, security
+rules, recovery mechanics, or workload-placement details.
+-->
 
-Human authorization and physical control remain explicit. AI assistance adds
-implementation speed, structured review, and operational evidence; it does not
-replace ownership.
+```mermaid
+flowchart TB
+    GC["Ground Control<br/>operate · observe · automate"]
+    Prime["Atlas Prime<br/>AMD64 control plane · core infrastructure"]
+    W1["Worker 1<br/>ARM64 compute"]
+    W2["Worker 2<br/>ARM64 compute"]
+    W3["Worker 3<br/>ARM64 compute"]
+    W4["Worker 4<br/>ARM64 compute"]
+    Foundation["Foundational services<br/>independent where required"]
 
-## Current capabilities
+    GC --> Prime
+    Prime --> W1
+    Prime --> W2
+    Prime --> W3
+    Prime --> W4
+    Prime --- Foundation
+```
 
-- ✅ Supported Ubuntu host baseline
-- ✅ Kubernetes v1.35 heterogeneous control plane and worker fleet
-- ✅ Independent foundational DNS with safe client cutover
-- ✅ Dedicated and attributable infrastructure automation
-- ✅ Reboot-proven network and time policy
-- ✅ Validated NVMe and dedicated etcd/containerd storage
-- ✅ Architecture-aware AMD64/ARM64 bootstrap
-- ✅ Canonical control-plane initialization and certificate endpoint
-- ✅ Calico pod networking and cluster DNS
-- ✅ Canary-tested worker migration with automatic rollback
-- ✅ Complete retirement of the legacy Pi control plane
-- ✅ Five-node cold-start recovery and worker identity persistence
-- ✅ Separate human operator and automation access paths
-- ℹ️ Historical resource-metrics milestone retained; Metrics Server is not yet
-  installed on the new cluster
-- ⏸️ Fresh persistent-storage design, intentionally paused for review
+Atlas Prime provides the current Kubernetes control plane and its dedicated
+storage foundation. The four Pis provide the compute fleet. Foundational
+services stay outside the cluster when bootstrap and recovery require that
+independence.
 
-## Milestones
+This is intentionally a role-level view, not a map of the live environment.
+The deeper, still-sanitized design is in the
+[migration-era architecture](docs/architecture/migration-era-diagrams.md).
 
-| Status | Milestone |
+## North Star
+
+There is no finished Atlas architecture. That is intentional.
+
+It exists to keep building and learning: deploy something real, observe it,
+break it safely, recover it, secure the new boundary, automate what should be
+repeatable, and use the result to attempt something harder.
+
+Kubernetes is the current foundation—not the destination. Atlas should become
+a place to run applications, infrastructure experiments, security research,
+AI systems, local and cloud services, and whatever matters next.
+
+When we are deciding whether something belongs in Atlas, the questions are
+simple:
+
+- Will it make the platform more capable?
+- Will it teach us something relevant to infrastructure, security, cloud, or
+  AI?
+- Can we build something real with it?
+- Can we observe it, automate it, recover it, and explain what we learned?
+
+If the answer is yes, it probably belongs here.
+
+## The journey
+
+One technical problem kept leading to the next.
+
+The first job was not installation. It was discovery. The four Pis already
+contained an inherited Kubernetes environment whose architecture and health
+needed to be rediscovered. Recovering it exposed how Linux, containerd,
+kubelet, networking, metrics, and the Kubernetes datastore affected one
+another.
+
+Once the cluster was healthy, its unsupported operating system forced a
+rebuild. The rebuild made the fleet reproducible. Reproducibility made it
+possible to reconstruct the control plane and reconnect the workers. That made
+storage the next real question.
+
+Storage preparation worked—but the evidence changed the plan. A
+microSD-centered platform was not the right foundation for the latency and
+endurance demands Atlas was growing toward. Instead of protecting the original
+architecture, Team Atlas introduced Atlas Prime and built a successor beside
+the still-working Pi cluster.
+
+That decision opened the most interesting chapter so far: independent DNS, a
+parallel control plane, dedicated automation, rollback, heterogeneous worker
+migration, retirement of the original cluster, and a deliberate cold-start
+recovery test.
+
+<!--
+VISUAL PLACEMENT 4 — ATLAS EVOLUTION
+
+Turn the evolution below into a compact visual timeline. The visual should
+show increasing capability and changing architecture without depicting the
+live network. Keep the unfinished future visible.
+-->
+
+```mermaid
+flowchart LR
+    A["Four Pis<br/>and an unknown cluster"] --> B["Recovered and<br/>rebuilt Pi platform"]
+    B --> C["Storage evidence<br/>changes the plan"]
+    C --> D["Atlas Prime<br/>built in parallel"]
+    D --> E["One heterogeneous<br/>five-node platform"]
+    E --> F["What comes next?<br/>Still being built"]
+```
+
+### Era I — Discovery & Recovery
+
+The project began by understanding what was already in the closet, recovering
+the inherited cluster, and adding the first visibility into how it behaved.
+
+| Milestone | What changed |
 |---|---|
-| ✅ | [001 — Lab Discovery](docs/milestones/001-lab-discovery.md) |
-| ✅ | [002 — Kubernetes Foundation](docs/milestones/002-kubernetes-foundation.md) |
-| ✅ | [003 — Resource Metrics](docs/milestones/003-resource-metrics.md) |
-| ✅ | [004 — Platform Modernization](docs/milestones/004-platform-modernization.md) |
-| ✅ | [005 — Control Plane Reconstitution](docs/milestones/005-control-plane-reconstitution.md) |
-| ✅ | [006 — Cluster Networking and Worker Rejoin](docs/milestones/006-cluster-networking-and-worker-rejoin.md) |
-| ✅ | [007 — Persistent Storage Preparation](docs/milestones/007-persistent-storage-preparation.md) |
-| ✅ | [008 — Architecture Pivot and Atlas Prime Commissioning](docs/milestones/008-atlas-prime-commissioning.md) |
-| ✅ | [009 — Independent DNS and Safe Client Cutover](docs/milestones/009-independent-dns-cutover.md) |
-| ✅ | [010 — Safe Automation and Worker Hardening](docs/milestones/010-safe-automation-and-worker-hardening.md) |
-| ✅ | [011 — Atlas Prime Storage Foundation](docs/milestones/011-atlas-prime-storage-foundation.md) |
-| ✅ | [012 — Atlas Prime Control Plane and Networking](docs/milestones/012-atlas-prime-control-plane-networking.md) |
-| ✅ | [013 — Canary-Gated Worker and Control-Plane Migration](docs/milestones/013-canary-gated-worker-migration.md) |
-| ⏸️ | 014 — Fresh Persistent-Storage Architecture |
-| ⏳ | 015 — Load Balancing and Ingress |
-| ⏳ | 016 — GitOps, Observability, and Platform Applications |
+| [001 — Lab Discovery](docs/milestones/001-lab-discovery.md) | Turn an unknown rack into an understood starting point. |
+| [002 — Kubernetes Foundation](docs/milestones/002-kubernetes-foundation.md) | Recover the original cluster and prove the fixes survived reboot. |
+| [003 — Resource Metrics](docs/milestones/003-resource-metrics.md) | Add early resource visibility—and document the trust limitation that came with it. |
 
-Milestones 001–007 describe recovery and modernization of the original Pi
-platform. Milestones 008–013 form the Atlas Prime migration era. Their existing
-numbers are chronological and deliberately retained.
+### Era II — The Pi Platform
 
-## Engineering records
+Recovery proved the cluster could work. Modernization made it supportable and
+repeatable. Networking brought the fleet back together. Storage preparation
+then produced the evidence that would outgrow the architecture.
 
-- [Architecture decisions](docs/decisions/)
-- [Build and migration journal](docs/journal/atlas-prime-migration-era.md)
-- [Migration-era architecture](docs/architecture/migration-era-diagrams.md)
-- [v1 migration-era release notes](docs/releases/v1-atlas-prime-era.md)
-- [Publication boundary and security policy](SECURITY.md)
+| Milestone | What changed |
+|---|---|
+| [004 — Platform Modernization](docs/milestones/004-platform-modernization.md) | Replace an end-of-life foundation with a supported, reproducible one. |
+| [005 — Control Plane Reconstitution](docs/milestones/005-control-plane-reconstitution.md) | Build a clean control plane from understood state. |
+| [006 — Cluster Networking and Worker Rejoin](docs/milestones/006-cluster-networking-and-worker-rejoin.md) | Restore pod networking, DNS, real traffic, and the worker fleet. |
+| [007 — Persistent Storage Preparation](docs/milestones/007-persistent-storage-preparation.md) | Prove durable device handling—and learn why the larger storage design needed to change. |
 
-## Engineering philosophy
+### Era III — Enter Atlas Prime
 
-- Understand systems before changing them.
-- Build one capability at a time.
-- Preserve failures and recoveries, not just final screenshots.
-- Use fresh preflight, bounded mutation, acceptance checks, and rollback.
-- Distinguish infrastructure failure from verifier failure.
-- Protect valuable state; classify disposable experiments honestly.
-- Automate repetitive work while keeping authorization human-owned.
-- Leave capacity and architectural choices open until evidence justifies them.
+Atlas Prime was not a bigger replacement dropped into the rack. It was built
+beside a healthy cluster, one dependency at a time, while the old control plane
+remained available for recovery.
 
-## Roadmap
+This is where the lab started pushing back. A DNS cutover failed and rollback
+worked. A worker reached `Ready` but failed the end-to-end test. Validators
+sometimes reported failure while the infrastructure was healthy, exposing
+assumptions about DNS, scheduling, automation, and the meaning of a passing
+check.
 
-The control-plane migration is complete. The next platform chapter begins only
-after a fresh storage design is approved.
+The lesson was bigger than any one incident: test real behavior, test the
+rollback, and question the measurement as carefully as the system being
+measured.
 
-- Persistent storage and recovery
-- Network services, including a deliberately redesigned DNS-filtering service
-- Load balancing and ingress
-- GitOps and deployment workflows
-- Metrics, logs, traces, and alerting
-- Applications, microservices, websites, and demo environments
-- Edge delivery and hybrid-cloud integration
-- Future AI/model workloads
-- Additional compute and storage expansion
+Eventually the canaries stopped producing new information. Team Atlas kept the
+checks that protected valuable state and dropped the ceremony that protected
+disposable experiments. The remaining fleet moved, the old control plane was
+retired, and its Pi returned as worker4.
 
-Public material is intentionally sanitized. Live addresses, credentials,
-authorization policy, device identifiers, recovery procedures, and raw
-operational evidence remain private.
+The closing recovery tests reinforced another lesson: recovery is itself an
+architecture test. Power behavior and durable machine identity exposed
+dependencies that normal operation had hidden. Atlas recovered, and the
+remaining unattended power-recovery gap stays explicit rather than becoming a
+capability the project pretends to have.
 
-> **Build. Break. Learn. Recover. Improve.**
+| Milestone | What changed |
+|---|---|
+| [008 — Architecture Pivot and Atlas Prime Commissioning](docs/milestones/008-atlas-prime-commissioning.md) | Establish the stronger AMD64 foundation without discarding the working cluster. |
+| [009 — Independent DNS and Safe Client Cutover](docs/milestones/009-independent-dns-cutover.md) | Find and remove a circular dependency through canary and rollback. |
+| [010 — Safe Automation and Worker Hardening](docs/milestones/010-safe-automation-and-worker-hardening.md) | Give approved automation a distinct identity and make the worker baseline durable. |
+| [011 — Atlas Prime Storage Foundation](docs/milestones/011-atlas-prime-storage-foundation.md) | Give the control-plane datastore and runtime deliberate, reboot-persistent storage. |
+| [012 — Atlas Prime Control Plane and Networking](docs/milestones/012-atlas-prime-control-plane-networking.md) | Bring the successor control plane online and let the first worker expose the real trust boundary. |
+| [013 — Canary-Gated Worker and Control-Plane Migration](docs/milestones/013-canary-gated-worker-migration.md) | Move from reversible trials to rollout, retire the old cluster, and close with a cold-start recovery test. |
+
+### Era IV — From Cluster to Platform
+
+The migration is complete. The next era moves upward through the stack.
+
+| Direction | The question |
+|---|---|
+| **Persistent storage and recovery** | What should durable storage look like when designed from actual workload, failure, backup, and restore requirements? |
+| **Platform services and observability** | How should Atlas deliver applications and make their behavior visible? |
+| **Cybersecurity** | How do identity, isolation, policy, provenance, secrets, networking, and runtime detection behave in a system we can actually attack and defend? |
+| **AI agents and MCP** | What happens when agents receive tools, context, credentials, network access, and the ability to act? |
+| **AI Infrastructure** | What do inference, model serving, RAG, embeddings, and vector systems require from the platform beneath them? |
+| **Hybrid cloud and edge** | Which services belong in the closet, in AWS, at the edge, or across all three? |
+| **Real applications** | What useful things can we build that force the infrastructure to solve real problems? |
+| **Unknown** | What technology will matter next that is not on this list yet? |
+
+These are directions, not claims of capability already completed.
+
+## Ground Control
+
+Ground Control is where the physical lab, the software platform, and Team Atlas
+meet.
+
+Today, it is the human-controlled environment from which Team Atlas inspects
+the platform, reasons about changes, approves boundaries, runs automation,
+validates results, and preserves the engineering record.
+
+Over time, Ground Control should become a more coherent way to see and operate
+the whole system: topology, health, deployments, capacity, storage, networking,
+DNS, security signals, automation history, cloud resources, and AI workloads.
+It is still evolving with the platform it controls.
+
+<!--
+VISUAL PLACEMENT 5 — GROUND CONTROL CONCEPT
+
+Show three distinct layers: Ruben directing and approving; ChatGPT and Codex
+helping design, implement, and validate; Atlas running as the physical and
+software platform. Keep it conceptual. Do not depict real dashboards,
+credentials, endpoints, routes, authorization rules, or recovery procedures.
+-->
+
+## Built by Team Atlas
+
+I did not build Atlas alone. Part of the experiment is learning what
+engineering collaboration looks like when AI becomes part of the team.
+
+### Ruben — Vision & Architecture
+
+I set the direction, choose the hardware, manage the physical environment,
+make and approve architecture decisions, decide what matters, challenge
+complexity, and choose where Atlas goes next.
+
+### ChatGPT — Architecture & Platform Strategy
+
+ChatGPT is the architecture and review partner. We reason through systems,
+debate tradeoffs, turn goals into designs, examine failures, and keep the
+bigger project visible when an individual technical problem gets deep.
+
+### Codex — Implementation, Automation & Validation
+
+Codex is the implementation engine. It turns approved designs into automation,
+executes bounded infrastructure changes, tests assumptions, builds validators
+and rollback paths, gathers evidence, and maintains the durable engineering
+record.
+
+> **AI does not own Atlas. I do. AI gives me leverage to build, learn, and
+> experiment at a scale I could not reasonably reach alone.**
+
+## The engineering record
+
+The README is the front door. The deeper record preserves the decisions,
+failures, and technical evidence behind the story:
+
+- [Milestones](docs/milestones/) — the capabilities and lessons in chronological order
+- [Architecture decisions](docs/decisions/) — why the design changed
+- [Atlas Prime migration journal](docs/journal/atlas-prime-migration-era.md) — the full migration-era narrative
+- [Sanitized migration-era diagrams](docs/architecture/migration-era-diagrams.md) — how the architecture evolved
+- [v1 migration-era release notes](docs/releases/v1-atlas-prime-era.md) — the close of the first major era
+- [Publication boundary and security policy](SECURITY.md) — what is deliberately kept private
+
+## Public by design. Private by default.
+
+Atlas should be understandable without becoming a map of the live lab.
+
+This repository publishes architecture, decisions, failures, recoveries, and
+lessons. It does not publish credentials, live addressing, security rules,
+operational scripts, private topology, device identifiers, access mechanics,
+raw evidence, or recovery procedures.
+
+That boundary is part of the architecture, not an afterthought.
+
+---
+
+<p align="center">
+  <strong>Build. Break. Learn. Recover. Improve.</strong>
+</p>
+
+<p align="center">
+  <strong>Then build something harder.</strong>
+</p>
