@@ -73,6 +73,7 @@ review for the current main branch:
 
 ```text
 docs/milestones/014-durable-storage-and-recovery.md
+docs/milestones/015-atlas-can-see-itself.md
 ```
 
 ## History and reporting

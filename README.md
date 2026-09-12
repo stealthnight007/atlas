@@ -239,11 +239,12 @@ its first platform milestone now proven.
 | Milestone | What changed |
 |---|---|
 | [014 — Durable Storage and Recovery](docs/milestones/014-durable-storage-and-recovery.md) | Add an explicit two-replica application storage tier, prove persistence across rescheduling, and validate its honest one-node failure boundary. |
+| [015 — Atlas Can See Itself](docs/milestones/015-atlas-can-see-itself.md) | Add secure resource metrics, a focused Ground Control dashboard, alerts, and an OpenTelemetry entry path; then observe a real workload replacement and durable recovery. |
 
 | Direction | The question |
 |---|---|
 | **Persistent storage and recovery** | How should the proven first tier gain independent backup, restore testing, and eventually a third repair target? |
-| **Platform services and observability** | How should Atlas deliver applications and make their behavior visible? |
+| **Platform services and observability** | How should Atlas build on its first working Ground Control surface and deliver observable applications? |
 | **Cybersecurity** | How do identity, isolation, policy, provenance, secrets, networking, and runtime detection behave in a system we can actually attack and defend? |
 | **AI agents and MCP** | What happens when agents receive tools, context, credentials, network access, and the ability to act? |
 | **AI Infrastructure** | What do inference, model serving, RAG, embeddings, and vector systems require from the platform beneath them? |
