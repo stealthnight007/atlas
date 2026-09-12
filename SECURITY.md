@@ -65,6 +65,16 @@ docs/releases/v1-atlas-prime-era.md
 Anything not listed is excluded by default. Changing the allowlist requires a
 new publication review and a fresh exposure scan.
 
+## Reviewed additions after v1
+
+The v1 release allowlist above remains an immutable record of that release.
+The following later public file has passed the same publication-boundary
+review for the current main branch:
+
+```text
+docs/milestones/014-durable-storage-and-recovery.md
+```
+
 ## History and reporting
 
 Removing sensitive material from a later commit does not remove it from Git

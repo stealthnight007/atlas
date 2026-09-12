@@ -62,7 +62,7 @@ to fight back, and open-ended enough to keep asking harder questions.
 
 | 5 nodes | 2 architectures | 1 control plane |
 |:---:|:---:|:---:|
-| **4 compute workers** | **13 completed milestones** | **1 retired legacy cluster** |
+| **4 compute workers** | **14 completed milestones** | **1 retired legacy cluster** |
 
 <!--
 VISUAL PLACEMENT 3 — SANITIZED CURRENT ARCHITECTURE
@@ -217,6 +217,11 @@ dependencies that normal operation had hidden. Atlas recovered, and the
 remaining unattended power-recovery gap stays explicit rather than becoming a
 capability the project pretends to have.
 
+With migration complete, Atlas moved upward into platform capability. Its
+first durable tier now spans two dedicated worker disks, exposes storage only
+through an explicit application class, and has been proven through workload
+rescheduling and the bounded loss and recovery of one storage worker.
+
 | Milestone | What changed |
 |---|---|
 | [008 — Architecture Pivot and Atlas Prime Commissioning](docs/milestones/008-atlas-prime-commissioning.md) | Establish the stronger AMD64 foundation without discarding the working cluster. |
@@ -228,11 +233,16 @@ capability the project pretends to have.
 
 ### Era IV — From Cluster to Platform
 
-The migration is complete. The next era moves upward through the stack.
+The migration is complete. The next era moves upward through the stack, with
+its first platform milestone now proven.
+
+| Milestone | What changed |
+|---|---|
+| [014 — Durable Storage and Recovery](docs/milestones/014-durable-storage-and-recovery.md) | Add an explicit two-replica application storage tier, prove persistence across rescheduling, and validate its honest one-node failure boundary. |
 
 | Direction | The question |
 |---|---|
-| **Persistent storage and recovery** | What should durable storage look like when designed from actual workload, failure, backup, and restore requirements? |
+| **Persistent storage and recovery** | How should the proven first tier gain independent backup, restore testing, and eventually a third repair target? |
 | **Platform services and observability** | How should Atlas deliver applications and make their behavior visible? |
 | **Cybersecurity** | How do identity, isolation, policy, provenance, secrets, networking, and runtime detection behave in a system we can actually attack and defend? |
 | **AI agents and MCP** | What happens when agents receive tools, context, credentials, network access, and the ability to act? |
